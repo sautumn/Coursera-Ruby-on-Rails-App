@@ -1,16 +1,43 @@
-<h1>Searching for - <%= @search_term %></h1>
 
-<table border="1">
-  <tr>
-  	<th>Image</th>
-  	<th>Name</th>
-  	<th>Description</th>
-  </tr>
-  <% @courses.each do |course| %>
-    <tr class=<%= cycle('even', 'odd') %>>
-      <td><%= image_tag(course["smallIcon"])%></td>
-      <td><%= course["name"] %></td>
-      <td><%= course["shortDescription"] %></td>
-    </tr>
-  <% end %>
+  <div class="jumbotron" style:"width:100%">
+  <div><p><a href="#aboutthisapp">About this app</a></p></div>
+    <h1>Search through hundreds of Coursera courses</h1> 
+    <h3>Coursera provides universal access to the world’s best education, partnering with top universities and organizations to offer courses online.</h3>
+  </div>
+
+<table style="width:100%">
+<td>
+  <h3>Searching for <b><%= @search_term %></b> in Coursera courses...</h3>
+</td>
+
+<td align="right">
+  <form id="search" class="form-inline">
+      <input type="text" id="search_box" class="form-control" />
+      <input type="button" id="button" value="Submit" class="btn btn-primary" />
+  </form>
+</td>
 </table>
+
+<!-- If the Search was successful, create the table -->
+<% if @courses != nil %>
+  <table class="table table-hover">
+      <% @courses.each do |course| %>
+        <tr>
+        <% urlname = "http://www.coursera.com/courses/" + course["shortName"] %>
+          <td><%= image_tag(course["smallIcon"])%></td>
+          <td><center><a href= <%= urlname %> > <%= course["name"] %></a></center></td>
+          <td><%= course["shortDescription"] %></td>
+        </tr>
+      <% end %>
+  </table>
+<% end %>
+
+<!-- If the Search was unsuccessful, let user know to try again -->
+<% if @courses == nil%>
+  <br>Sorry. Your search for <b><%= @search_term %></b> was unsuccessful. Please try again!</br>
+<% end %>
+<br>
+<hr>
+<h2><b>About this app</b></h2>
+<a name="aboutthisapp"></a> 
+<p>This small app was created as a part of the <a href="https://www.coursera.org/specializations/ruby-on-rails">Coursera Introduction to Ruby on Rails</a> course which utilizes the <a href="https://tech.coursera.org/app-platform/catalog/">Coursera API</a>. I completed and tweaked the project in an effort to learn more about ruby on rails, RESTful API's using HTTParty, git, deployment to Heroku, javascript, jquery, bootstrap, and HTML/CSS. Thanks for looking!<br> -Autumn / sautumn@github</p>
